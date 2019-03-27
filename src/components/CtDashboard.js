@@ -9,8 +9,8 @@ class CtDashboard extends PureComponent {
       <MapView
         customMapStyle={mapTheme}
         initialRegion={{
-          latitude: 37.78825,
-          longitude: -122.4324,
+          latitude: 43.6532,
+          longitude: -79.3832,
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421
         }}
