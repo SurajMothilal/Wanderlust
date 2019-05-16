@@ -7,6 +7,7 @@
  */
 
 import React, { Component } from "react";
+
 import CtDashboard from "./src/components/CtDashboard";
 
 export default class App extends Component {
