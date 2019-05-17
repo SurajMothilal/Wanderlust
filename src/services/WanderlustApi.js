@@ -9,4 +9,3 @@ const callApi = url => {
     console.log("Error");
   });
 };
-savvy2612;

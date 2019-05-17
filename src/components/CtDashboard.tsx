@@ -3,7 +3,7 @@ import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 
 import { mapTheme } from "src/styles";
 
-const CtDashboard = props => {
+const CtDashboard: React.FunctionComponent<{}> = ({}) => {
   return (
     <MapView
       customMapStyle={mapTheme}
@@ -14,7 +14,7 @@ const CtDashboard = props => {
         longitudeDelta: 0.0421
       }}
       provider={PROVIDER_GOOGLE}
-      style={{ flex: 1 }}
+      {...{ style: { flex: 1 } }}
     />
   );
 };
