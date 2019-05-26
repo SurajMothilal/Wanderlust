@@ -1,11 +1,14 @@
 export default {
-  fetchPointsOfInterest() {
-    return callApi("hey");
+  fetchPointsOfInterest(params) {
+    return fetchData(`/places`);
   }
 };
 
-const callApi = url => {
-  fetch(url).catch(() => {
-    console.log("Error");
-  });
+const fetchData = async url => {
+  const rootUrl = "http://localhost:3000";
+  const finalUrl = `${rootUrl}${url}`;
+  const response = await fetch(finalUrl);
+  let resultJSON = await response.json();
+  console.log(resultJSON);
+  return resultJSON;
 };

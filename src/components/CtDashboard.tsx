@@ -2,8 +2,11 @@ import React from "react";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 
 import { mapTheme } from "src/styles";
+import useCurrentLocationMarkers from "src/hooks/CurrentLocationMarker";
 
 const CtDashboard: React.FunctionComponent<{}> = ({}) => {
+  const locationMarkers = useCurrentLocationMarkers();
+  console.log(locationMarkers);
   return (
     <MapView
       customMapStyle={mapTheme}
