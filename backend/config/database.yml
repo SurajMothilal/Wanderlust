@@ -19,13 +19,11 @@ default: &default
   encoding: unicode
   # For details on connection pooling, see Rails configuration guide
   # http://guides.rubyonrails.org/configuring.html#database-pooling
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  pool: <%= ENV.fetch("POSTGRES_CONNECTION_POOL", 5) %>
 
 development:
   <<: *default
-  database: backend_development
-  username: backend
-  password: backend
+  url: <%= ENV.fetch("POSTGRES_URL", "postgis://wanderlust_backend:wanderlust_backend@localhost:5432/wanderlust_backend?encoding=utf8&pool=5&timeout=5000").gsub("?", "_development?") %>
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
@@ -54,9 +52,7 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: backend_test
-  username: backend
-  password: backend
+  url: <%= ENV.fetch("POSTGRES_URL", "postgis://wanderlust_backend:wanderlust_backend@localhost:5432/wanderlust_backend?encoding=utf8&pool=5&timeout=5000").gsub("?", "_test?") %>
 
 # As with config/secrets.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -79,6 +75,5 @@ test:
 #
 production:
   <<: *default
-  database: backend_production
-  username: backend
-  password: <%= ENV['BACKEND_DATABASE_PASSWORD'] %>
+  sslmode: require
+  url: <%= ENV.fetch("POSTGRES_URL", "").sub(/^postgres/, "postgis") %>

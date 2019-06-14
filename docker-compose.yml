@@ -1,9 +1,25 @@
 version: "3"
 services:
-  web:
+  postgres:
+    environment:
+      POSTGRES_PASSWORD: wanderlust_backend
+      POSTGRES_USER: wanderlust_backend
+    image: mdillon/postgis:11-alpine
+    ports:
+      - "5432:5432"
+    volumes:
+      - wanderlust-backend-postgres:/var/lib/postgresql/data
+
+  worker:
     build: .
-    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    command: rails s -b 0.0.0.0
+    depends_on:
+      - postgres
+    env_file: .env.docker.development
     volumes:
       - .:/wanderlust
     ports:
       - "3000:3000"
+
+volumes:
+  wanderlust-backend-postgres:
