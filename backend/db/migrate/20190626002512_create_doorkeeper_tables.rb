@@ -1,8 +1,8 @@
 class CreateDoorkeeperTables < ActiveRecord::Migration[5.2]
   def change
-    create_table :oauth_applications do |t|
+    create_table :oauth_applications, id: :uuid do |t|
       t.string  :name,    null: false
-      t.string  :uid,     null: false
+      t.string  :uuid,     null: false
       t.string  :secret,  null: false
 
       # Remove `null: false` if you are planning to use grant flows
@@ -14,11 +14,11 @@ class CreateDoorkeeperTables < ActiveRecord::Migration[5.2]
       t.timestamps             null: false
     end
 
-    add_index :oauth_applications, :uid, unique: true
+    add_index :oauth_applications, :uuid, unique: true
 
-    create_table :oauth_access_grants do |t|
-      t.references :resource_owner,  null: false
-      t.references :application,     null: false
+    create_table :oauth_access_grants, id: :uuid do |t|
+      t.references :resource_owner, type: :uuid,  null: false
+      t.references :application,  type: :uuid, null: false
       t.string   :token,             null: false
       t.integer  :expires_in,        null: false
       t.text     :redirect_uri,      null: false
@@ -34,9 +34,9 @@ class CreateDoorkeeperTables < ActiveRecord::Migration[5.2]
       column: :application_id
     )
 
-    create_table :oauth_access_tokens do |t|
-      t.references :resource_owner, index: true
-      t.references :application,    null: false
+    create_table :oauth_access_tokens, id: :uuid do |t|
+      t.references :resource_owner, type: :uuid, index: true
+      t.references :application, type: :uuid, null: false
 
       # If you use a custom token generator you may need to change this column
       # from string to text, so that it accepts tokens larger than 255
@@ -69,8 +69,7 @@ class CreateDoorkeeperTables < ActiveRecord::Migration[5.2]
       column: :application_id
     )
 
-    # Uncomment below to ensure a valid reference to the resource owner's table
-    # add_foreign_key :oauth_access_grants, :user, column: :resource_owner_id
-    # add_foreign_key :oauth_access_tokens, :user, column: :resource_owner_id
+    add_foreign_key :oauth_access_grants, :users, column: :resource_owner_id
+    add_foreign_key :oauth_access_tokens, :users, column: :resource_owner_id
   end
 end
