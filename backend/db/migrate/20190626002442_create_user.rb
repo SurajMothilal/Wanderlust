@@ -1,6 +1,7 @@
 class CreateUser < ActiveRecord::Migration[5.2]
   def change
-    create_table :user, id: :uuid do |t|
+    create_table :users, id: :uuid do |t|
+      t.string :email, unique: true
       t.string :password_digest
       t.string :encrypted_password_reset_token, index: { unique: true }
       t.datetime :password_reset_token_expires_at

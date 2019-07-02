@@ -66,15 +66,16 @@ ActiveRecord::Schema.define(version: 2019_06_26_002952) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "user", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+  create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "email"
     t.string "password_digest"
     t.string "encrypted_password_reset_token"
     t.datetime "password_reset_token_expires_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "status", null: false
-    t.index ["encrypted_password_reset_token"], name: "index_user_on_encrypted_password_reset_token", unique: true
-    t.index ["status"], name: "index_user_on_status"
+    t.index ["encrypted_password_reset_token"], name: "index_users_on_encrypted_password_reset_token", unique: true
+    t.index ["status"], name: "index_users_on_status"
   end
 
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
